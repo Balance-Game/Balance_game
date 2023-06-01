@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    color:black;
+}
+
+#header {
+    background-color: #D9D9D9;
+    height: 80px;
+    position: relative;
+}
+
+#signin {
+    width: 75px;
+    top: 29px;
+    right: 100px;
+    position: absolute;
+    float: right;
+}
+
+#signup {
+    width: 75px;
+    top: 29px;
+    right: 25px;
+    position: absolute;
+    float: right;
+}
+
+#signin a,
+#signup a {
+    text-decoration-line: none;
+}
+
+#header>h1 {
+    font-size: 65px;
+    position: absolute;
+    padding: 5px 10px;
+    text-align: center;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#createQ {
+    position: absolute;
+    width: 131px;
+    height: 36px;
+    left: 1354px;
+    top: 95px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 36px;
+    background-color: #D9D9D9;
+    padding: 12px 10px;
+}
+#createQ a{
+    text-decoration-line: none;
+}
