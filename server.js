@@ -32,35 +32,36 @@ app.get("/signup", function (req, res) {
 });
 
 // 회원가입
-app.post('/signup', (req, res) => {
+app.post('/', (req, res) => {
   const name = req.body.name;
   const id = req.body.id;
   const password = req.body.password;
 
-  fs.readFile("userinfo.json", (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    let users = [];
-    if (data.length !== 0) {
+  let users = [];
+  try {
+    const data = fs.readFileSync("userinfo.json"); // json파일 불러오기
+    if (data.length !== 0) { // 안에 데이터가 있다면 users에 저장하기
       users = JSON.parse(data.toString());
     }
+  } catch (err) {
+    console.error(err);
+    return;
+  }
 
-    const user = {
-      uname: name,
-      uid: id,
-      pw: password,
-    };
+  const user = {
+    uname: name,
+    uid: id,
+    pw: password,
+  };
 
-    users.push(user);
+  // users에 추가히기
+  users.push(user);
 
-    const userJSON = JSON.stringify(users);
-    fs.writeFileSync("userinfo.json", userJSON);
-  });
+  // json에 users넣기
+  const userJSON = JSON.stringify(users);
+  fs.writeFileSync("userinfo.json", userJSON);
+  res.redirect('/');
 });
-
 
 // 질문 생성 창
 app.get("/createQ", function (req, res) {
