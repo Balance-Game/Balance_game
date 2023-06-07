@@ -8,34 +8,13 @@ const compression = require('compression');
 const { get } = require("http");
 const port = 8000;
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static("src"));
 
 // 메인화면
-app.get('/', function (req, res) {
-  let html = `
-  <!doctype html>
-  <html>
-    <head>
-        <title>Balance Blitz</title>
-        <link rel="stylesheet" href="CSS/style.css">
-        <link rel="shortcut icon" href="IMG/vs.png">
-    </head>
-    <body>
-          <div id="header">
-            <h1>Balance Blitz</h1>
-            <a href="signin"><input type="button" class="signin" value="로그인"></a>
-            <a href="signup"><input type="button" class="signup" value="회원가입"></a>
-          </div>
-
-            <a href="createQ">
-            <div id="createQ">
-            <input type="button" id="createBtn" value="질문 생성">
-            </div>
-            </a>
-    </body>
-  </html>
-      `;
-  res.send(html);
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + "/src/HTML/main.html");
 });
 
 
@@ -52,12 +31,21 @@ app.get("/signup", function (req, res) {
   res.sendFile(__dirname + "/src/HTML/signup.html");
 });
 
-app.post("/signup_process", function (req, res) {
-  
+// 회원가입
+app.post('/', (req, res) => {
+  const name = req.body.name;
+  const id = req.body.id;
+  const pw = req.body.pw;
+  console.log(name);
+  console.log(id);
+  console.log(pw);
+
 });
+
 // 질문 생성 창
 app.get("/createQ", function (req, res) {
   res.sendFile(__dirname + "/src/HTML/createQ.html");
+
 });
 
 app.post("/createQ_process", function () {
