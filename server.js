@@ -11,7 +11,7 @@ const port = 8000;
 app.use(express.static("src"));
 
 // 메인화면
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   let html = `
   <!doctype html>
   <html>
@@ -44,7 +44,7 @@ app.get("/signin", function (req, res) {
   res.sendFile(__dirname + "/src/HTML/signin.html");
 });
 
-app.post("signin_process",function(req,res){
+app.post("signin_process", function (req, res) {
 
 });
 // 회원가입 창
@@ -52,15 +52,15 @@ app.get("/signup", function (req, res) {
   res.sendFile(__dirname + "/src/HTML/signup.html");
 });
 
-app.post("/signup_process",function(req,res){
-
+app.post("/signup_process", function (req, res) {
+  
 });
 // 질문 생성 창
 app.get("/createQ", function (req, res) {
   res.sendFile(__dirname + "/src/HTML/createQ.html");
 });
 
-app.post("/createQ_process",function(){
+app.post("/createQ_process", function () {
 
 });
 
