@@ -32,20 +32,39 @@ app.get("/signup", function (req, res) {
 });
 
 // 회원가입
-app.post('/', (req, res) => {
+app.post('/signup', (req, res) => {
   const name = req.body.name;
   const id = req.body.id;
-  const pw = req.body.pw;
-  console.log(name);
-  console.log(id);
-  console.log(pw);
+  const password = req.body.password;
 
+  fs.readFile("userinfo.json", (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    let users = [];
+    if (data.length !== 0) {
+      users = JSON.parse(data.toString());
+    }
+
+    const user = {
+      uname: name,
+      uid: id,
+      pw: password,
+    };
+
+    users.push(user);
+
+    const userJSON = JSON.stringify(users);
+    fs.writeFileSync("userinfo.json", userJSON);
+  });
 });
+
 
 // 질문 생성 창
 app.get("/createQ", function (req, res) {
   res.sendFile(__dirname + "/src/HTML/createQ.html");
-
 });
 
 app.post("/createQ_process", function () {
