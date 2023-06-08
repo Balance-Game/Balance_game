@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("src"));
 
 // 메인화면
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + "/src/HTML/main.html");
 });
 
@@ -32,7 +32,7 @@ app.get("/signup", function (req, res) {
 });
 
 // 회원가입
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const name = req.body.name;
   const id = req.body.id;
   const password = req.body.password;
@@ -42,24 +42,31 @@ app.post('/', (req, res) => {
     const data = fs.readFileSync("userinfo.json"); // json파일 불러오기
     if (data.length !== 0) { // 안에 데이터가 있다면 users에 저장하기
       users = JSON.parse(data.toString());
+      if (users.find(users => users.uid === id)) { // id 중복확인
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.write(`<script>alert('${id} already exists')</script>`);
+        res.end("<script>window.location='/signup'</script>");
+        return;
+      }
+      else {
+        const user = {
+          uname: name,
+          uid: id,
+          pw: password,
+        };
+      
+        // users에 추가히기
+        users.push(user);
+      
+        // json에 users넣기
+        const userJSON = JSON.stringify(users);
+        fs.writeFileSync("userinfo.json", userJSON);
+      }
     }
-  } catch (err) {
-    console.error(err);
-    return;
-  }
-
-  const user = {
-    uname: name,
-    uid: id,
-    pw: password,
-  };
-
-  // users에 추가히기
-  users.push(user);
-
-  // json에 users넣기
-  const userJSON = JSON.stringify(users);
-  fs.writeFileSync("userinfo.json", userJSON);
+   } catch (err) {
+      console.error(err);
+      return;
+    }
   res.redirect('/');
 });
 
