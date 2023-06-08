@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("src"));
 
 // 메인화면
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + "/src/HTML/main.html");
 });
 
@@ -32,7 +32,7 @@ app.get("/signup", function (req, res) {
 });
 
 // 회원가입
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const name = req.body.name;
   const id = req.body.id;
   const password = req.body.password;
@@ -41,27 +41,34 @@ app.post('/', (req, res) => {
   try {
     const data = fs.readFileSync("userinfo.json"); // json파일 불러오기
     if (data.length !== 0) { // 안에 데이터가 있다면 users에 저장하기
-      users = JSON.parse(data.toString());
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].uid == id) {
+          res.send('중복된 ID입니다.');
+        }
+
+        users = JSON.parse(data.toString());
+      }
     }
-  } catch (err) {
-    console.error(err);
-    return;
-  }
+   } catch (err) {
+      console.error(err);
+      return;
+    }
+  
 
-  const user = {
-    uname: name,
-    uid: id,
-    pw: password,
-  };
+    const user = {
+      uname: name,
+      uid: id,
+      pw: password,
+    };
 
-  // users에 추가히기
-  users.push(user);
+    // users에 추가히기
+    users.push(user);
 
-  // json에 users넣기
-  const userJSON = JSON.stringify(users);
-  fs.writeFileSync("userinfo.json", userJSON);
-  res.redirect('/');
-});
+    // json에 users넣기
+    const userJSON = JSON.stringify(users);
+    fs.writeFileSync("userinfo.json", userJSON);
+    res.redirect('/');
+  });
 
 // 질문 생성 창
 app.get("/createQ", function (req, res) {
