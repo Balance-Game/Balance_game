@@ -9,12 +9,12 @@
     <title>Balance Blitz</title>
 </head>
 <body>
-    <form action="/sigin_process" method="post" class="B_signin">
+    <form action="/signin" method="post" class="B_signin">
         <div class="S_signin">
-            <input type="text" placeholder="아이디" maxlength="14" required>
+            <input type="text" placeholder="아이디" maxlength="14" name="id"required>
         </div>
         <div class="S_signin">
-            <input type="password" placeholder="비밀번호" maxlength="14" required>
+            <input type="password" placeholder="비밀번호" maxlength="14" name="password" required>
         </div>
         <p>계정이 없으신가요? <a href="signup">회원가입</a></p>
         <div class="I_button"><input type="submit" value="로그인"></div>
