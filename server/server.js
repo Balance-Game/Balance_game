@@ -1,15 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const session = require("express-session");
-const { stringify } = require("querystring");
 const app = express();
-const compression = require('compression');
-const { get } = require("http");
 const port = 8000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("src"));
 
 // 메인화면
