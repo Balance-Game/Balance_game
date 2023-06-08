@@ -41,34 +41,34 @@ app.post('/', async (req, res) => {
   try {
     const data = fs.readFileSync("userinfo.json"); // json파일 불러오기
     if (data.length !== 0) { // 안에 데이터가 있다면 users에 저장하기
-      for (let i = 0; i < users.length; i++) {
-        if (users[i].uid == id) {
-          res.send('중복된 ID입니다.');
-        }
-
-        users = JSON.parse(data.toString());
+      users = JSON.parse(data.toString());
+      if (users.find(users => users.uid === id)) { // id 중복확인
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.write(`<script>alert('${id} already exists')</script>`);
+        res.end("<script>window.location='/signup'</script>");
+        return;
+      }
+      else {
+        const user = {
+          uname: name,
+          uid: id,
+          pw: password,
+        };
+      
+        // users에 추가히기
+        users.push(user);
+      
+        // json에 users넣기
+        const userJSON = JSON.stringify(users);
+        fs.writeFileSync("userinfo.json", userJSON);
       }
     }
    } catch (err) {
       console.error(err);
       return;
     }
-  
-
-    const user = {
-      uname: name,
-      uid: id,
-      pw: password,
-    };
-
-    // users에 추가히기
-    users.push(user);
-
-    // json에 users넣기
-    const userJSON = JSON.stringify(users);
-    fs.writeFileSync("userinfo.json", userJSON);
-    res.redirect('/');
-  });
+  res.redirect('/');
+});
 
 // 질문 생성 창
 app.get("/createQ", function (req, res) {
