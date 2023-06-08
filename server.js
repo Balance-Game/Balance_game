@@ -39,7 +39,7 @@ app.post('/', async (req, res) => {
 
   let users = [];
   try {
-    const data = fs.readFileSync("/src/JSON/.userinfo.json"); // json파일 불러오기
+    const data = fs.readFileSync("userinfo.json"); // json파일 불러오기
     if (data.length !== 0) { // 안에 데이터가 있다면 users에 저장하기
       for (let i = 0; i < users.length; i++) {
         if (users[i].uid == id) {
@@ -66,7 +66,7 @@ app.post('/', async (req, res) => {
 
     // json에 users넣기
     const userJSON = JSON.stringify(users);
-    fs.writeFileSync("/src/JSON/userinfo.json", userJSON);
+    fs.writeFileSync("userinfo.json", userJSON);
     res.redirect('/');
   });
 
